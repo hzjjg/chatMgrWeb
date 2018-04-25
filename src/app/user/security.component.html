@@ -1,0 +1,8 @@
+<table class="security-table">
+    <tr>
+        <td>更改密码</td>
+        <!-- <td>上次更改密码时间 2017年10月08日 12:44:55</td> --> 
+        <td *ngIf="userSecurityInfo">上次更改密码时间 {{userSecurityInfo.lastChangePwdTime | date:'yyyy年MM月dd日 HH:mm:ss'}}</td>
+        <td><button type="button" class="btn btn-primary" (click)="modifyPwd()">更改</button></td>
+    </tr>
+</table>

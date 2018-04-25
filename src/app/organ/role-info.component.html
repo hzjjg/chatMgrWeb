@@ -1,0 +1,69 @@
+<div>
+    <div class="modal-header">
+        <h4 class="modal-title float-left">角色信息</h4>
+        <button type="button" class="close float-right" (click)="modalRef.close()">
+            <span>&times;</span>
+        </button>
+    </div>
+    <form (ngSubmit)="submit()">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">角色名称</label>
+                <input type="text" class="form-control" [(ngModel)]="role.name" name="name" id="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="remark">备注</label>
+                <textarea class="form-control" [(ngModel)]="role.remark" name="remark" id="remark" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>权限</label>
+                <div>
+
+                    <div class="row no-gutters auth-main">
+                        <div class="select-part">
+                            <div class="selected-title"><span>已选的功能</span></div>
+                            <ul class="selected-list">
+                                <li *ngFor="let permissionKey of role.permissions" class="selected-item">
+                                    <span>{{formatName(permissionKey)}}</span>
+                                    <i class="selected-item-close fa fa-times" (click)="deletePermission(permissionKey)"></i>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="permission-part">
+                            <div class="permission-category">
+                                <div class="permission-category-title">
+                                    <span>全部功能</span>
+                                </div>
+                                <ul class="permission-category-list">
+                                    <li *ngFor="let category of categories; let i = index;" (click)="activeIndex = i" [ngClass]="{'active': activeIndex == i}" class="permission-category-item">
+                                        <a href="javascript:;">
+                                            <p>{{category.name}}</p>
+                                        </a>
+                                        <div class="category" [ngClass]="{'active': activeIndex == i}">
+                                            <div *ngFor="let permission of category.permissions" class="category-item">
+                                                <div (click)="toggle(permission)" [ngClass]="{'selected': (role.permissions || []).indexOf(permission.operation) != -1}" class="category-feature">
+                                                    <span>{{permission.name}}</span>
+                                                    <i class="selected-item-close fa fa-plus"></i>
+                                                    <i class="selected-item-close fa fa-check"></i>
+                                                </div>
+                                                <div class="category-remark">
+                                                    <p>{{permission.remark}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <!--<button type="button" class="btn btn-default" (click)="openModal2(templateNested)">open nested</button>-->
+        </div>
+    </form>
+</div>

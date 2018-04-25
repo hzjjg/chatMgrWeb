@@ -1,0 +1,49 @@
+
+<div class="modal-header">
+    <h4 class="modal-title float-left">转账信息</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+<form >
+    <div class="modal-body">
+        <div class="row no-gutters form-group">
+            <label class="col-2 text-right pr-2">账号</label>
+            <div class="col-5 px-3">
+                <div class="bg-input px-2">{{row.username}}</div>
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <label class="col-2 text-right pr-2">平台账号</label>
+            <div class="col-5 px-3">
+                <div class="bg-input px-2">{{row.account}}</div>
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <label class="col-2 text-right pr-2">转账金额</label>
+            <div class="col-5 px-3">
+                <div class="bg-input px-2">{{row.money}}</div>
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <label class="col-2 text-right pr-2">备注</label>
+            <div class="col-9 px-3">
+                <div class="textarea px-2">{{row.remark}}</div>
+            </div>
+        </div>
+        <div class="row no-gutters form-group">
+            <label class="col-2 text-right pr-2">理由</label>
+            <div class="col-9 px-3" *ngIf="row.status == 'Waiting'">
+                <textarea class="form-control" name="reason" [(ngModel)]="row.reason" cols="30" rows="3"></textarea>
+            </div>
+            <div class="col-9 px-3" *ngIf="row.status != 'Waiting'">
+                <div class="textarea px-2">{{row.reason}}</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer" *ngIf="row.status == 'Waiting'">
+        <button type="button" class="btn btn-primary" (click)="submit('Adopted')">允许</button>
+        <button type="button" class="btn btn-danger" (click)="submit('Rejected')">拒绝</button>
+    </div>
+</form>

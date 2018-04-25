@@ -1,0 +1,131 @@
+<div class="container-fluid">
+    <!--<form (submit)="submit()">-->
+    <div>
+        <div class="row mb-4">
+            <div class="col-sm-3 mb-4" *ngFor="let menu of functional.menus; index as index;">
+                <div class="card card-menu">
+                    <div class="card-block">
+                        <a class="float-right btn-link" href="javascript:;" (click)="removeMenu(index)">
+                            <i class="fa fa-times"></i>
+                        </a>
+                        <h4 class="card-title">菜单{{index + 1}}</h4>
+                        <p class="text-center">
+                            <a class="menu-item" href="javascript:;">
+                                <div class="menu-icon">
+                                    <!--fa暂空-->
+                                    <i [class]="menu.icon" style="font-size: 19px"></i>
+                                </div>
+                                <div class="menu-title">&nbsp;{{menu.name}}&nbsp;</div>
+                            </a>
+                        </p>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="menu-icon{{index}}">图标</label>
+                            <input type="text" class="form-control" id="menu-icon{{index}}" name="menu-icon{{index}}" placeholder="图标" [(ngModel)]="menu.icon">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="menu-name{{index}}">名称</label>
+                            <input type="text" class="form-control" id="menu-name{{index}}" name="menu-name{{index}}" placeholder="名称" [(ngModel)]="menu.name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="menu-href{{index}}">链接</label>
+                            <input type="text" class="form-control" id="menu-href{{index}}" name="menu-href{{index}}" placeholder="以'http://'或'https://'开头的网址"
+                                [(ngModel)]="menu.href">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mb-4">
+                <div class="card placeholder-border">
+                    <a href="javascript:;" class="btn btn-primary" (click)="addMenu()">新增菜单</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-sm-3 mb-4" *ngFor="let function of functional.functions; index as index;">
+                <div class="card card-function">
+                    <div class="card-block">
+                        <a class="float-right btn-link" href="javascript:;" (click)="removeFunction(index)">
+                            <i class="fa fa-times"></i>
+                        </a>
+                        <h4 class="card-title">窗口{{index + 1}}</h4>
+                        <p class="text-center">
+                            <a class="function-item" href="javascript:;">
+                                &nbsp;
+                                <i [class]="function.icon"></i>
+                                {{function.name}}&nbsp;
+                            </a>
+                        </p>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="function-icon{{index}}">图标</label>
+                            <input type="text" class="form-control" id="function-icon{{index}}" name="function-icon{{index}}" placeholder="图标" [(ngModel)]="function.icon">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="function-name{{index}}">名称</label>
+                            <input type="text" class="form-control" id="function-name{{index}}" name="function-name{{index}}" placeholder="名称" [(ngModel)]="function.name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="function-type{{index}}">类型</label>
+                            <select class="custom-select" id="function-type{{index}}" name="function-type{{index}}" [(ngModel)]="function.type">
+                                <!-- <option selected>Open this select menu</option> -->
+                                <option value="flash">flash</option>
+                                <option value="iframe">iframe</option>
+                                <option value="embed">embed</option>
+                                <option value="open">open</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>支持类型</label>
+                            <div class="clearfix">
+                                <label class="form-control-label float-left" for="menu-type-pc{{index}}">
+                                    <input name="menu-type-pc{{index}}" type="checkbox" class="vertical-align-middle" (change)="toggleSupport(function, 'pc')"
+                                        [checked]="function.support && function.support.includes('pc')" id="menu-type-pc{{index}}"> 电脑
+                                </label>
+                                <label class="form-control-label float-left ml-3" for="menu-type-mobile{{index}}">
+                                    <input name="menu-type-mobile{{index}}" type="checkbox" class="vertical-align-middle" (change)="toggleSupport(function, 'mobile')"
+                                        [checked]="function.support && function.support.includes('mobile')" id="menu-type-mobile{{index}}"> 手机
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="function-src{{index}}">源地址</label>
+                            <input type="text" class="form-control" id="function-src{{index}}" name="function-src{{index}}" placeholder="根据类型设置该URL"
+                                [(ngModel)]="function.src">
+                        </div>
+
+                        <div class="form-group">
+                            <mat-slide-toggle [(ngModel)]="function.full">全高度显示</mat-slide-toggle>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mb-4">
+                <div class="card placeholder-border">
+                    <a href="javascript:;" class="btn btn-primary" (click)="addFunction()">新增窗口</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col form-group text-right">
+                <!--<button type="submit" class="btn btn-primary btn-lg"> 保存</button>-->
+                <button type="button" class="btn btn-primary btn-lg" (click)="submit()">保存</button>
+            </div>
+        </div>
+        <!---->
+        <!--<div class="row">-->
+        <!--<ul class="list-group">-->
+        <!--<li class="list-group-item">[视频源] rtmp://www.baidu.com</li>-->
+        <!--<li class="list-group-item">[网页] www.baidu.com</li>-->
+        <!--<li class="list-group-item">[网页] www.baidu.com</li>-->
+        <!--<li class="list-group-item">[网页] www.baidu.com</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</form>-->
+    </div>
+</div>

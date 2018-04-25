@@ -1,0 +1,110 @@
+<div class="layout">
+    <div class="layout-main">
+        <div class="clearfix">
+            <div class="pull-right">
+                <div class="search">
+                    <div class="search-input-wrapper">
+                        <input type="text" placeholder="输入账号搜索" [(ngModel)]="username" (keydown)="search($event)">
+                        <a href="javascript:;" class="search-icon" (click)="searchInput()">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right pr-2">
+                <div class="search">
+                    <div class="search-input-wrapper">
+                        <input type="text" placeholder="输入昵称搜索" [(ngModel)]="likeFromNick" (keydown)="search($event)">
+                        <a href="javascript:;" class="search-icon" (click)="searchInput()">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right pr-2" style="padding-top: 1px">
+                <div class="float-left pr-2">
+                    <input class="form-control" matInput [matDatepicker]="startDateEle" [(ngModel)]="startDate" name="startDate" placeholder="起始日期" (keydown)="deleteStartDate($event)" (ngModelChange)="watchDate()" (click)="startDateEle.open()">
+                    <mat-datepicker #startDateEle></mat-datepicker>
+                </div>
+                <div class="float-left">
+                    <input class="form-control" matInput [matDatepicker]="endDateEle" [(ngModel)]="endDate" name="endDate" (ngModelChange)="watchDate()" placeholder="结束日期" (keydown)="deleteEndDate($event)" (click)="endDateEle.open()">
+                    <mat-datepicker #endDateEle></mat-datepicker>
+                </div>
+            </div>
+        </div>
+        <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="content">
+                <mat-header-cell *matHeaderCellDef class="mat-cell-width"> 消息内容 </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="mat-cell-width">
+                    <div *ngIf="row.msgType == 'RedPacket'" class="pr-5">{{row.description}}</div>
+                    <div *ngIf="row.msgType == 'Image'" class="pr-5">
+                        <img class="message-img" src="{{row.content}}" alt="">
+                    </div>
+                    <div *ngIf="row.msgType == 'Text'" class="text-truncate-2 pr-5" title="{{row.content}}">{{row.content}}</div>
+                    <div *ngIf="row.msgType == 'GroupTip'" class="pr-5">
+                        <span *ngIf="row.tipType == 'JOIN'">{{row.nickname}}加入了聊天室</span>
+                        <span *ngIf="row.tipType == 'QUIT'">{{row.nickname}}退出了聊天室</span>
+                        <span *ngIf="row.tipType == 'MODIFY_INFO'">{{row.nickname}}修改了群信息</span>
+                        <span *ngIf="row.tipType == 'PULL_RED_PACKET'">{{row.nickname}}领取了{{row.packetFrom}}的红包</span>
+                        <div *ngIf="row.tipType == 'NOTICE'">
+                            <span>群通知计划消息</span>
+                            <a href="javascript:;" class="pl-2 text-secondary" (click)="openNotice(row.content)">
+                                <i class="fa fa-file-text"></i>
+                            </a>
+                        </div>
+                    </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef> 账号 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <span class="pr-1">{{row.fromUsername}}</span>
+                    <img *ngIf="row.fromUserType == 'Staff'" src="./images/cst-icon.png" alt="客服" title="客服" style="width: 26px;">
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="fromNick">
+                <mat-header-cell *matHeaderCellDef> 发出者 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.fromNick}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="msgType">
+                <mat-header-cell *matHeaderCellDef> 消息类型 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <div *ngIf="row.msgType == 'RedPacket'">
+                        <span>红包</span>
+                        <a href="javascript:;" *ngIf="row.packetId" class="pl-2 text-secondary" (click)="lookRedPacket(row)">
+                            <i class="fa fa-money"></i>
+                        </a>
+                    </div>
+                    <div *ngIf="row.msgType == 'Image'">图片</div>
+                    <div *ngIf="row.msgType == 'Text'">消息</div>
+                    <div *ngIf="row.msgType == 'GroupTip'">系统消息</div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="time">
+                <mat-header-cell *matHeaderCellDef> 发出时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.time | date: 'MM/dd HH:mm'}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button trip-button type="primary" (click)="delete(row)">删除</button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [length]="dataSource.total"
+                       [pageIndex]="pageIndex"
+                       [pageSize]="pageSize"
+                       (page)="onPageChange($event)">
+        </mat-paginator>　
+    </div>
+    <div class="layout-sidebar px-3 pt-0">
+        <button trip-button type="outline-primary" custom-class="btn-block mb-2" (click)="refresh()">刷新</button>
+        <button trip-button type="primary" custom-class="btn-block mb-2" (click)="deleteByDayNumberBefore(15)">删除15天前的记录</button>
+    </div>
+</div>
+

@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start
+}
+.layout-main {
+  flex-grow: 1;
+}
+.layout-sidebar {
+  display: block;
+  flex-grow: 0;
+  width: 200px;
+  padding: 10px;
+}
+

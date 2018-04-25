@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title float-left">红包详情</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div class="text-center pt-3 pb-5" *ngIf="loading">
+        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+    </div>
+    <div *ngIf="!loading && !!redPacket">
+        <div class="pb-3">
+            <label>发出者：</label>
+            <span>{{redPacket.fromNick}}</span>
+        </div>
+        <div class="pb-3">
+            <label>红包总额：</label>
+            <span>{{redPacket.amount}}元</span>
+        </div>
+        <div class="pb-3">
+            <label>红包个数：</label>
+            <span>{{redPacket.count}}个</span>
+        </div>
+        <div class="red-packet-content">
+            <div class="form-row no-gutters pb-3 px-3" *ngFor="let allot of redPacket.allots">
+                <span class="col">{{allot.nickname}}</span>
+                <span class="col text-right">{{allot.money}}元</span>
+            </div>
+        </div>
+    </div>
+</div>

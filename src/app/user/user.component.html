@@ -1,0 +1,6 @@
+<ul class="nav nav-tabs">
+    <li routerLinkActive="active" *ngFor="let tab of tabs">
+        <a routerLink="{{tab.link}}">{{tab.title}}</a>
+    </li>
+</ul>
+<router-outlet></router-outlet>

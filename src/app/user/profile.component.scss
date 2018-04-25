@@ -1,0 +1,27 @@
+@import "../variables";
+
+.profile-header {
+  padding: 10px;
+  color: $label-font-color;
+}
+
+.profile-avatar {
+  margin-right: 30px;
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.profile-summary {
+
+}
+
+.profile-attrs {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.profile-person {
+  padding: 10px;
+}

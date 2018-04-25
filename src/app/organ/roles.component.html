@@ -1,0 +1,24 @@
+
+<div class="role-sidebar">
+    <h4 class="sidebar-title">按类型筛选</h4>
+    <ul class="nav sidebar-nav">
+        <li [class.selected]="selected == null">
+            <a href="javascript:;" (click)="selectedEmitter.emit(null)" class="role-item text-truncate">
+                全部
+            </a>
+        </li>
+        <li *ngFor="let role of roles" [class.selected]="selected == role.roleId">
+            <a href="javascript:;" (click)="selectedEmitter.emit(role.roleId)" class="role-item text-truncate" >
+                {{role.name}}
+                <label class="btn-actions">
+                    <a class="text-muted btn-action" (click)="editEmitter.emit(role)" href="javascript:;">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="text-muted btn-action" (click)="removeEmitter.emit(role)" href="javascript:;">
+                        <i class="fa fa-remove"></i>
+                    </a>
+                </label>
+            </a>
+        </li>
+    </ul>
+</div>

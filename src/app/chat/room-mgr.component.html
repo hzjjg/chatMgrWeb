@@ -1,0 +1,41 @@
+<div class="room-navbar">
+    <div class="room-nav-header">
+        <div>
+            <h3>
+                <i class="fa fa-comments-o"></i>
+                聊天室
+            </h3>
+        </div>
+    </div>
+    <div class="room-nav-body">
+        <ul class="nav nav-tabs room-mgr-nav">
+            <li routerLinkActive="active">
+                <a routerLink="info">信息管理</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="functional">功能区</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="im-user">在线成员信息</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="contact">在线客服</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="robot">机器人</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="chat-log">聊天记录</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="room-plan">计划</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="room-notice">通知</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="room-tab-content">
+    <router-outlet></router-outlet>
+</div>

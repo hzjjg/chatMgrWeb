@@ -1,0 +1,13 @@
+@import "../variables";
+
+.terminal-icon{
+    font-size: 20px;
+    width: 14px;
+    color:$active-color-base;
+    &.fa-desktop{
+        font-size: 14px;
+    }
+}
+.ban-icon {
+    cursor: pointer;
+}

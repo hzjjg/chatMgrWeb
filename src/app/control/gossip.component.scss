@@ -1,0 +1,41 @@
+@import "../variables";
+
+.search {
+  position: relative;
+  width: 200px;
+  .select-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    text-align: center;
+    line-height: 34px;
+  }
+  .search-input-wrapper {
+    position: relative;
+    height: $input-height;
+    //padding: 0px 0 0 40px;
+    //padding-left: 36px;
+    padding-right: 25px;
+    border-radius: 4px;
+    border: 1px solid #dde1eb;
+  }
+  .search-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    //left: 5px;
+    padding: $input-btn-padding-y $input-btn-padding-x;
+    line-height: $input-btn-line-height;
+  }
+  input {
+    width: 100%;
+    border: none;
+    padding: $input-btn-padding-y $input-btn-padding-x;
+    font-size: $font-size-base;
+    line-height: $input-btn-line-height;
+    background-color: transparent;
+    outline: 0;
+  }
+}

@@ -1,0 +1,60 @@
+<div class="clearfix">
+    <div class="pull-right pl-2">
+        <button trip-button type="primary" (click)="refresh()">刷新</button>
+    </div>
+    <div class="pull-right">
+        <div class="search">
+            <div class="search-input-wrapper">
+                <input type="text" placeholder="输入账号搜索" class="pr-4" [(ngModel)]="likeUsername" (keydown)="search($event)">
+                <a href="javascript:;" class="search-icon" (click)="searchInput()">
+                    <i class="fa fa-search"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef> 账号 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="userType">
+        <mat-header-cell *matHeaderCellDef> 用户类型 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <span *ngIf="row.userType == 'Customer'">客户</span>
+            <span *ngIf="row.userType == 'Visitor'">游客</span>
+            <span *ngIf="row.userType == 'Staff'">员工</span>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="expireTime">
+        <mat-header-cell *matHeaderCellDef> 有效日期 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{filterTime(row.expireTime)}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="reason">
+        <mat-header-cell *matHeaderCellDef> 原因 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.reason}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="createTime">
+        <mat-header-cell *matHeaderCellDef> 创建日期 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{filterTime(row.createTime)}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <a href="javascript:;" class="mr-2" (click)="edit(row)">编辑</a>
+            <a href="javascript:;" class="mr-2" (click)="delete(row)">删除</a>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+
+<mat-paginator [length]="dataSource.total"
+               [pageIndex]="pageIndex"
+               [pageSize]="pageSize"
+               (page)="onPageChange($event)">
+</mat-paginator>

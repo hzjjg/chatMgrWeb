@@ -1,0 +1,35 @@
+<div class="layout">
+    <div class="layout-main">
+        <div class="container-fluid">
+            <div class="row">
+                <button trip-button type="outline-primary" (click)="createContact()">新增在线客服</button>
+            </div>
+        </div>
+        <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> 名称 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef> 类型 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.type}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="url">
+                <mat-header-cell *matHeaderCellDef class="mat-cell-width"> 链接 </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="mat-cell-width pr-5"> {{row.url}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button trip-button type="primary" (click)="editContact(row)">编辑</button>
+                    <button trip-button type="primary" (click)="deleteContact(row)">删除</button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>
+

@@ -1,0 +1,18 @@
+<div class="chat-layout">
+    <div class="chat-sidebar">
+        <div class="sidebar-header">
+            <!--<a href="javascript:;">新建聊天室</a>-->
+            <input class="form-control" placeholder="搜索聊天室">
+        </div>
+        <div class="sidebar-body">
+            <ul class="nav nav-rooms">
+                <li *ngFor="let room of rooms" routerLinkActive="active">
+                   <a class="text-truncate" [routerLink]="room.roomNo"><span>{{room.name}}</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="chat-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+
+<div class="form-row pt-5" *ngIf="chartData">
+    <div class="col-md-8" style="margin: 0 auto">
+        <div class="w-100">
+            <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="false" [colors]="chartColors" [chartType]="chartType"></canvas>
+            <div class="text-center pt-3">
+                <span>数据统计</span>
+            </div>
+        </div>
+    </div>
+</div>
+

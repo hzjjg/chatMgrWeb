@@ -1,0 +1,11 @@
+
+<div class="modal-header">
+    <h4 class="modal-title float-left">计划内容</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div class="text-center" [innerHtml]="content"></div>
+</div>

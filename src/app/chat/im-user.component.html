@@ -1,0 +1,73 @@
+
+<div class="clearfix">
+    <div class="pull-left pt-2 px-3">
+        <span class="text-secondary">总数：</span>
+        <span>{{onlineNumber}}人</span>
+    </div>
+    <div class="pull-left pt-2 px-3">
+        <span class="text-secondary">客户：</span>
+        <span>{{customerNumber}}人</span>
+    </div>
+    <div class="pull-left pt-2 px-3">
+        <span class="text-secondary">游客：</span>
+        <span>{{visitorNumber}}人</span>
+    </div>
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary" (click)="refresh()">刷新</button>
+    </div>
+</div>
+<mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="nickname">
+        <mat-header-cell *matHeaderCellDef> 昵称 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <i class="fa fa-mobile terminal-icon" *ngIf="row.terminal == terminal.MOBILE"></i>
+            <i class="fa fa-desktop terminal-icon" *ngIf="row.terminal == terminal.PC"></i>
+            <span> {{row.nickname}} </span>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="userType">
+        <mat-header-cell *matHeaderCellDef>
+            <span>类型</span>
+            (<select name="type" [(ngModel)]="selectUserType" (ngModelChange)="selectType(selectUserType)" style="border: 0; outline: none">
+                <option value="">全部</option>
+                <option value="Customer">客户</option>
+                <option value="Visitor">游客</option>
+            </select>)
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            {{filterUserType(row.userType)}}
+            <i class="fa fa-ban pl-1 text-secondary ban-icon" *ngIf="row.gags.length > 0" (click)="openGagAlert(row)"></i>
+            <!--<i class="fa fa-ban pl-1 text-secondary" matTooltip="禁言中， 未完善" [matTooltipPosition]="'right'"></i>-->
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef> 用户名 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ip">
+        <mat-header-cell *matHeaderCellDef> ip地址 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.ip}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="host">
+        <mat-header-cell *matHeaderCellDef> host </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.host}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="operatingSystem">
+        <mat-header-cell *matHeaderCellDef> 操作系统 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <a href="javascript:;" (click)="openUserAgent(row.userAgent)">
+                {{row.operatingSystem || "..."}}
+            </a>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="operation">
+        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button trip-button type="primary" (click)="tick(row)">踢出</button>
+            <button trip-button type="primary" *ngIf="row.userType == 'Customer'" (click)="toggleGossip(row)">禁言</button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

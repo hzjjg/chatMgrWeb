@@ -1,0 +1,105 @@
+
+<div class="text-center py-5 tex" [hidden]="!loading">
+    <i class="fa fa-spinner fa-pulse fa-3x"></i>
+</div>
+<div [hidden]="loading">
+    <div class="p-3">
+        <div class="pb-3">
+            <b>注册设置</b>
+        </div>
+        <div class="px-3" *ngIf="registerEnable">
+            <div class="form-group form-row">
+                <span class="col-1">真实姓名</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="registerEnable.enableName" [disabled]="registerLoading.enableName" (change)="toggleEnable('enableName', 'register')"></mat-slide-toggle>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <span class="col-1">QQ</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="registerEnable.enableQQ" [disabled]="registerLoading.enableQQ" (change)="toggleEnable('enableQQ', 'register')"></mat-slide-toggle>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <span class="col-1">微信</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="registerEnable.enableWeChat" [disabled]="registerLoading.enableWeChat" (change)="toggleEnable('enableWeChat', 'register')"></mat-slide-toggle>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <span class="col-1">手机号</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="registerEnable.enablePhone" [disabled]="registerLoading.enablePhone" (change)="toggleEnable('enablePhone', 'register')"></mat-slide-toggle>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="footer text-right p-3" style="border-top: 1px solid #e5e5e5;">-->
+        <!--<button class="btn btn-primary" (click)="save()" [disabled]="saveLoading">-->
+        <!--<i class="fa fa-circle-o-notch fa-spin" [hidden]="!saveLoading"></i>-->
+        <!--<span>保存</span>-->
+        <!--</button>-->
+        <!--</div>-->
+    </div>
+
+    <div class="p-3">
+        <div class="pb-3">
+            <b>提款设置</b>
+        </div>
+
+        <div class="px-3" *ngIf="moneyEnable">
+            <div class="form-group form-row">
+                <span class="col-1 pt-2">最小金额</span>
+                <div class="col-2 pl-2">
+                    <input type="text" [(ngModel)]="moneyEnable.minMoney" name="minMoney" style="display: block; width: 100%; padding: 3px 10px;">
+                </div>
+                <div class="col-2 pl-2">
+                    <button class="btn btn-primary" (click)="saveMinMoney()" [disabled]="saveMinMoneyLoading">
+                        <i class="fa fa-circle-o-notch fa-spin" [hidden]="!saveMinMoneyLoading"></i>
+                        <span>保存</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group form-row">
+                <span class="col-1">手机号</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="moneyEnable.enablePhone" [disabled]="moneyLoading?.enablePhone" (change)="toggleEnable('enablePhone', 'money')"></mat-slide-toggle>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3">
+        <div class="pb-3">
+            <b>聊天室设置</b>
+        </div>
+
+        <div class="px-3" *ngIf="chatEnable">
+            <div class="form-group form-row">
+                <span class="col-1 pt-2">回收客户红包比率</span>
+                <div class="col-2 pl-2">
+                    <input type="text" [(ngModel)]="chatEnable.takeCustomerRate" placeholder="例: 0.9" name="takeCustomerRate" style="display: block; width: 100%; padding: 3px 10px;">
+                </div>
+                <div class="col-2 pl-2">
+                    <button class="btn btn-primary" (click)="saveRate()" [disabled]="saveRateLoading">
+                        <i class="fa fa-circle-o-notch fa-spin" [hidden]="!saveRateLoading"></i>
+                        <span>保存</span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <span class="col-1">游客发言</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="chatEnable.enableVisitorSpeech" [disabled]="chatLoading.enableVisitorSpeech" (change)="toggleEnable('enableVisitorSpeech', 'chat')"></mat-slide-toggle>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <span class="col-1">仅客服发言</span>
+                <div class="col pl-2">
+                    <mat-slide-toggle [(ngModel)]="chatEnable.enableOnlyStaffSpeech" [disabled]="chatLoading.enableOnlyStaffSpeech" (change)="toggleEnable('enableOnlyStaffSpeech', 'chat')"></mat-slide-toggle>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

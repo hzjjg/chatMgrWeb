@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <h4 class="modal-title float-left">客户信息</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<form (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+        <div class="pb-3">
+            <div class="avatar">
+                <img src="{{cst.avatar}}" alt="">
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">用户名</div>
+            <div class="col-8 px-3">
+                <div class="content py-2 px-3">{{cst.username}}</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">昵称</div>
+            <div class="col-8 px-3">
+                <div class="content py-2 px-3">{{cst.nickname}}</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">真实姓名</div>
+            <div class="col-8 px-3" *ngIf="cst.status == userStatus.Enable">
+                <!-- <div class="content py-2 px-3">&nbsp;{{cst.name}}&nbsp;</div> -->
+                <input type="text" class="form-control" id="name" name="name" placeholder="真实姓名" [(ngModel)]="cst.name">
+            </div>
+            <div class="col-8 px-3" *ngIf="cst.status != userStatus.Enable">
+                <div class="content py-2 px-3">&nbsp;{{cst.name}}</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">QQ</div>
+            <div class="col-8 px-3" *ngIf="cst.status == userStatus.Enable">
+                <input type="text" class="form-control" id="qq" name="qq" placeholder="QQ" [(ngModel)]="cst.qq">
+                <!-- <div class="content py-2 px-3">&nbsp;{{cst.qq}}&nbsp;</div> -->
+            </div>
+            <div class="col-8 px-3" *ngIf="cst.status != userStatus.Enable">
+                <div class="content py-2 px-3">&nbsp;{{cst.qq}}</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">微信</div>
+            <div class="col-8 px-3" *ngIf="cst.status == userStatus.Enable">
+                <input type="text" class="form-control" id="weChat" name="weChat" placeholder="微信" [(ngModel)]="cst.weChat">
+                <!-- <div class="content py-2 px-3">&nbsp;{{cst.weChat}}&nbsp;</div> -->
+            </div>
+            <div class="col-8 px-3" *ngIf="cst.status != userStatus.Enable">
+                <div class="content py-2 px-3">&nbsp;{{cst.weChat}}</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">手机号</div>
+            <div class="col-8 px-3" *ngIf="cst.status == userStatus.Enable">
+                <!-- <div class="content py-2 px-3">&nbsp;{{cst.phone}}&nbsp;</div> -->
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" [(ngModel)]="cst.phone">
+            </div>
+            <div class="col-8 px-3" *ngIf="cst.status != userStatus.Enable">
+                <div class="content py-2 px-3">&nbsp;{{cst.phone}}</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-3">
+            <div class="col-3 text-right p-2">用户类型</div>
+            <div class="col-8 px-3">
+                <div class="content py-2 px-3">客户</div>
+            </div>
+        </div>
+
+        <div class="row no-gutters pb-4">
+            <div class="col-3 text-right p-2">账户余额</div>
+            <div class="col-8 px-3">
+                <div class="content py-2 px-3 text-danger">{{cst.balance}} 元</div>
+            </div>
+        </div>
+        <div class="row no-gutters pb-4">
+            <div class="col-3 text-right p-2">推广码</div>
+            <div class="col-8 px-3">
+                <div class="content py-2 px-3 text-danger"> {{cst.popularizeCode}} </div>
+            </div>
+        </div>
+        <!--<div class="row no-gutters pb-3">-->
+        <!--<div class="col-3 text-right p-2">个性签名</div>-->
+        <!--<div class="col-9 px-3">-->
+        <!--<div class="content py-2 px-3">{{cst.personalSignature}}</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="row no-gutters pb-3">-->
+        <!--<div class="col-6 row no-gutters">-->
+        <!--<div class="col-4 text-right p-2">用户名</div>-->
+        <!--<div class="col-8 content py-2 px-3">{{cst.username}}</div>-->
+        <!--</div>-->
+        <!--<div class="col-6 row no-gutters">-->
+        <!--<div class="col-4 text-right p-2">昵称</div>-->
+        <!--<div class="col-8 content py-2 px-3">{{cst.nickname}}</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row no-gutters pb-3">-->
+        <!--<div class="col-6 row no-gutters">-->
+        <!--<div class="col-4 text-right p-2">用户类型</div>-->
+        <!--<div class="col-8 content py-2 px-3">{{cst.userType}}</div>-->
+        <!--</div>-->
+        <!--<div class="col-6 row no-gutters">-->
+        <!--<div class="col-4 text-right p-2">账户余额</div>-->
+        <!--<div class="col-8 content py-2 px-3">{{cst.balance}}</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row no-gutters pb-3">-->
+        <!--<div class="col-2 text-right p-2">个性签名</div>-->
+        <!--<div class="col-10 content py-2 px-3">{{cst.personalSignature}}</div>-->
+        <!--</div>-->
+    </div>
+
+    <div class="modal-footer" *ngIf="cst.status == userStatus.Enable">
+        <button type="submit" class="btn btn-primary">
+            <span *ngIf="!submitLoading">保存</span> 
+            <span *ngIf="submitLoading">保存中...</span> 
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">取消</button>
+    </div>
+</form>
+

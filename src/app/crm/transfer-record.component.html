@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">转账记录</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<div class="modal-body" style="padding: 0">
+
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="transferType">
+            <mat-header-cell *matHeaderCellDef> 转账类型 </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <span class="pr-2">{{formatTransferType(row.transferType)}}</span>
+                <a href="javascript:;" class="text-secondary" *ngIf="row.account" matTooltip="平台账号：{{row.account}}" [matTooltipPosition]="'right'">
+                    <i class="fa fa-user-o"></i>
+                </a>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef> 转账方式 </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                {{formatType(row.type)}}
+                <a href="javascript:;" class="pl-2 text-secondary" *ngIf="row.staffId" (click)="lookStaffInfo(row)">
+                    <i class="fa fa-user"></i>
+                </a>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="money">
+            <mat-header-cell *matHeaderCellDef> 金额 </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.money}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="statement">
+            <mat-header-cell *matHeaderCellDef> 说明 </mat-header-cell>
+            <mat-cell *matCellDef="let row" class="text-truncate" title="{{row.statement}}"> {{row.statement}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="dataSource.total"
+                   [pageIndex]="pageIndex"
+                   [pageSize]="pageSize"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+</div>

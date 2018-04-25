@@ -1,0 +1,42 @@
+<div class="profile-header">
+    <div class="profile-avatar pull-left">
+        <a href="javascript:;">
+            <img class="rounded-circle avatar" src="/images/头像.svg">
+        </a>
+    </div>
+    <div class="profile-summary pt-2">
+        <p>{{user.username}}</p>
+        <ul class="profile-attrs">
+            <li class="role">
+                <i class="fa fa-user-o"></i>
+                {{role?.name}}
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="profile-person">
+    <form (ngSubmit)="submit()">
+        <fieldset>
+            <h4>个人信息</h4>
+            <table class="profile-table">
+                <colgroup>
+
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>名称</td>
+                        <td><input type="text" class="form-control" name="name" [(ngModel)]="profile.name"></td>
+                    </tr>
+                    <tr>
+                        <td>联系方式</td>
+                        <td><input type="text" class="form-control" name="contact" [(ngModel)]="profile.contact"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <footer class="text-right">
+            <button type="submit" class="btn btn btn-primary">保存</button>
+        </footer>
+    </form>
+
+</div>

@@ -1,0 +1,21 @@
+
+<div class="modal-header">
+    <h4 class="modal-title float-left">推广</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-row form-group">
+        <label for="location">链接地址</label>
+        <input type="text" class="form-control" id="location" name="location" [(ngModel)]="location" (blur)="codePopularize()" placeholder="www.baidu.com">
+    </div>
+    <div class="form-row form-group">
+        <label for="popularize-code">推广码</label>
+        <input type="text" class="form-control" id="popularize-code" name="popularizeCode" [(ngModel)]="popularizeCode" (blur)="codePopularize()">
+    </div>
+    <div class="form-row form-group">
+        <label>推广链接</label>
+        <div class="form-control" style="min-height: 33px; background-color: #e5e5e5; word-wrap:break-word"> {{popularizeHref}} </div>
+    </div>
+</div>

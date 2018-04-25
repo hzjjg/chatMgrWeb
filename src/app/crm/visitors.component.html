@@ -1,0 +1,49 @@
+<!--<p class="text-muted">-->
+<!---->
+<!--</p>-->
+<!--<div class="container-fluid">-->
+<!--</div>-->
+<mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="visitorNo">
+        <mat-header-cell *matHeaderCellDef> 游客NO </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.visitorNo}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="nickname">
+        <mat-header-cell *matHeaderCellDef> IM昵称 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.nickname}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="referrer">
+        <mat-header-cell *matHeaderCellDef class="mat-cell-width"> 来源 </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="mat-cell-width">
+            <div class="text-truncate-2 pr-5"  title="{{row.referrer}}"> {{row.referrer}} </div>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="lastOperationTime">
+        <mat-header-cell *matHeaderCellDef> 最后操作时间 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.lastOperationTime | date: 'yyyy-MM-dd HH:mm'}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="createTime">
+        <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.createTime | date: 'yyyy-MM-dd HH:mm'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button trip-button type="link" (click)="edit(row)">查看</button>
+            <!--<button trip-button type="primary" (click)="edit(row)">编辑</button>-->
+            <!--<button trip-button type="primary" (click)="remove(row)">删除</button>-->
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator #paginator
+               [length]="dataSource.total"
+               [pageIndex]="0"
+               [pageSize]="pageSize"
+               (page)="onPageChange($event)">
+</mat-paginator>

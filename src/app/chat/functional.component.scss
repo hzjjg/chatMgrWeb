@@ -1,0 +1,91 @@
+@import "../variables";
+
+$menu-background-color: rgba(09, 23, 32, 0.8);
+$menu-item-height: 50px;
+$menu-item-stripe-color: rgba(09, 23, 32, 0.5);
+$menu-item-hover-color: darken(rgba(09, 23, 32, 0.5), 7.5%);
+
+.vertical-align-middle {
+  vertical-align: middle;
+}
+.menu-item {
+  position: relative;
+  display: inline-block;
+  height: 58px;
+  width: 68px;
+  padding: 4px 0;
+
+  text-align: center;
+  margin: auto;
+  background-color: rgba(9, 23, 32, 0.8);
+  color: #fff;
+
+  //&:hover .cst-serve {
+  //  display: block;
+  //}
+  //&:nth-child(2n-1) {
+  //  background-color: $menu-item-stripe-color;
+  //}
+  //@include hover {
+  //  background-color: $menu-item-hover-color
+  //}
+
+}
+.menu-icon {
+  //height: 20px;
+  //margin-bottom: 3px;
+  color: $white;
+  font-size: 20px;
+  text-align: center;
+}
+.menu-title {
+  padding-top: 2px;
+  text-align: center;
+  color: #fff;
+  font-weight: lighter;
+  font-size: 12px;
+  @include text-truncate();
+}
+
+
+.function-item {
+  position: relative;
+  display: inline-block;
+  height: 42px;
+  background-color: #17232f;
+  padding: 10px 25px;
+  color: #fff;
+}
+
+.function-icon {
+
+}
+
+.function-title {
+
+}
+
+.card-menu,
+.card-function{
+  border: 1px solid $gray-200;
+}
+
+.card-block{
+  padding: 10px;
+}
+
+.placeholder-border {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  border: 1px dashed #aaa;
+}
+
+.custom-select{
+  display: block;
+  width: 100%;
+  -webkit-appearance: none;
+}

@@ -1,0 +1,54 @@
+<div class="layout">
+    <div class="layout-main">
+        <div class="container-fluid">
+            <div class="row">
+                <button trip-button type="outline-primary" (click)="createRoomPlan()">新增计划</button>
+            </div>
+        </div>
+        <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> 名称 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef> 计划代码 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.code}} </mat-cell>
+            </ng-container>
+            <!--<ng-container matColumnDef="template">-->
+                <!--<mat-header-cell class="mat-cell-width" *matHeaderCellDef> 模板 </mat-header-cell>-->
+                <!--<mat-cell class="mat-cell-width" *matCellDef="let row">-->
+                    <!--{{row.template}}-->
+                    <!--&lt;!&ndash;<div class="html-edit" [innerHTML]="row.template"></div>&ndash;&gt;-->
+                <!--</mat-cell>-->
+            <!--</ng-container>-->
+            <ng-container matColumnDef="newestTime">
+                <mat-header-cell *matHeaderCellDef> 数据时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.newestTime}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="lastPullTime">
+                <mat-header-cell *matHeaderCellDef> 最后获取时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{row.lastPullTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                    <a href="javascript:;" class="text-secondary ml-2" (click)="openNewestContent(row.newestContent)" title="计划内容">
+                        <i class="fa fa-file-text"></i>
+                    </a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="createTime">
+                <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.createTime | date: 'yyyy-MM-dd'}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button trip-button type="primary" (click)="editItem(row)">编辑</button>
+                    <button trip-button type="primary" (click)="deleteItem(row)">删除</button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>

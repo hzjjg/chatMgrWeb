@@ -1,0 +1,40 @@
+.role-sidebar {
+  display: block;
+  background-color: #f8f6f2;
+  padding: 10px;
+}
+.sidebar-title {
+
+}
+
+.sidebar-nav {
+  display: block;
+
+  li {
+    margin-bottom: 5px;
+
+    &:hover,
+    &.selected {
+      background-color: #eeece8;
+      color: #484744;
+    }
+
+    .role-item {
+      position: relative;
+      height: 38px;
+      line-height: 38px;
+      padding-left: 14px;
+      padding-right: 38px;
+      display: block;
+      color: inherit;
+    }
+
+    .btn-actions {
+      position: absolute;
+      right: 5px;
+    }
+    //.btn-action {
+      //position: absolute;
+    //}
+  }
+}

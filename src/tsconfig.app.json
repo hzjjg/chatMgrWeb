@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "module": "es2015",
+    "types": ["node"]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "node_modules",
+    "dist"//避免优化到里面代码 导致 __webpack_require__冲突
+  ],
+  "files": [ //_add_this_section_without_this_comment_;)
+    "main.ts",
+    "polyfills.ts",
+    "vendor.ts"
+  ]
+}

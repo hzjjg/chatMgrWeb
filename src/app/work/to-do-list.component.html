@@ -1,0 +1,119 @@
+<div class="layout">
+    <div class="layout-main">
+        <div class="clearfix">
+            <div class="pull-left pt-2">
+                <div class="float-left pl-4">
+                    <span class="text-secondary">允许金额：</span>
+                    <span>{{dataSource.data.adoptedMoney || 0}}</span>
+                </div>
+                <div class="float-left pl-4">
+                    <span class="text-secondary">拒绝金额：</span>
+                    <span>{{dataSource.data.rejectedMoney || 0}}</span>
+                </div>
+                <div class="float-left pl-4">
+                    <span class="text-secondary">待处理金额：</span>
+                    <span>{{dataSource.data.waitingMoney || 0}}</span>
+                </div>
+            </div>
+            <div class="pull-right pr-2" style="padding-top: 1px">
+                <div class="float-left pr-2">
+                    <input class="form-control" matInput [matDatepicker]="startDateEle" [(ngModel)]="startDate" name="startDate" placeholder="起始日期" (keydown)="deleteStartDate($event)" (ngModelChange)="watchDate()" (click)="startDateEle.open()">
+                    <mat-datepicker #startDateEle></mat-datepicker>
+                </div>
+                <div class="float-left">
+                    <input class="form-control" matInput [min]="startDate" [matDatepicker]="endDateEle" [(ngModel)]="endDate" name="endDate" (keydown)="deleteEndDate($event)" placeholder="结束日期" (ngModelChange)="watchDate()" (click)="endDateEle.open()">
+                    <mat-datepicker #endDateEle></mat-datepicker>
+                </div>
+            </div>
+        </div>
+        <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef> 用户名 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef> 类型 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <div *ngIf="row.type == 'ConvertMoney'">
+                        提现
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="money">
+                <mat-header-cell *matHeaderCellDef> 转换金额</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.money}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="account">
+                <mat-header-cell *matHeaderCellDef> 平台账号</mat-header-cell>
+                <mat-cell *matCellDef="let row" [title]="row.account"> {{row.account}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef> 审核状态 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <span style="color: limegreen" *ngIf="row.status == workReviewStatus.ADOPTED">允许</span>
+                    <span class="text-danger" *ngIf="row.status == workReviewStatus.REJECTED">拒绝</span>
+                    <span *ngIf="row.status == workReviewStatus.WAITING">待处理</span>
+
+                    <a href="javascript:;" class="pl-2 text-secondary" *ngIf="row.staffId" (click)="lookStaffInfo(row)">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="reviewTime">
+                <mat-header-cell *matHeaderCellDef> 审核时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.reviewTime | date: 'MM-dd HH:mm'}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="remark">
+                <mat-header-cell *matHeaderCellDef> 备注 </mat-header-cell>
+                <mat-cell title="{{row.remark}}" class="text-truncate" *matCellDef="let row"> {{row.remark}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="createTime">
+                <mat-header-cell *matHeaderCellDef> 提交时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.createTime | date: 'MM-dd HH:mm'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <div *ngIf="row.status == workReviewStatus.WAITING">
+                        <a href="javascript:;" (click)="openModal(row)">处理</a>
+                    </div>
+                    <div *ngIf="row.status != workReviewStatus.WAITING">
+                        <a href="javascript:;" (click)="lookRow(row)">查看</a>
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator #paginator
+                       [length]="dataSource.total"
+                       [pageIndex]="0"
+                       [pageSize]="pageSize"
+                       (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+    <div class="layout-sidebar pt-0">
+        <!--<button trip-button type="outline-primary" custom-class="btn-block mb-2" (click)="refresh()">刷新</button>-->
+        <div class="select-sidebar">
+            <h4 class="sidebar-title">按审核状态筛选</h4>
+            <ul class="nav sidebar-nav">
+                <li [class.selected]="selected == null">
+                    <a href="javascript:;" (click)="selectStatus(null)" class="select-item text-truncate">
+                        全部
+                    </a>
+                </li>
+                <li *ngFor="let item of filterStatus" [class.selected]="selected == item.status" (click)="selectStatus(item.status)">
+                    <a href="javascript:;" class="select-item text-truncate">
+                        {{item.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>

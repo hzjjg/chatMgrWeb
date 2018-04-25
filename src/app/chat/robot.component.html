@@ -1,0 +1,36 @@
+<div class="layout">
+    <div class="layout-main">
+        <div class="container-fluid">
+            <div class="row">
+                <button trip-button type="outline-primary" (click)="createRobot()">新增机器人</button>
+                <button trip-button type="outline-info" custom-class="ml-3" (click)="automaticCreateRobot()">自动新增机器人</button>
+            </div>
+        </div>
+        <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="nickname">
+                <mat-header-cell *matHeaderCellDef> 昵称 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.nickname}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef> 用户名 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="userType">
+                <mat-header-cell *matHeaderCellDef> 用户类型 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{filterRobotType(row.userType)}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button trip-button type="primary" (click)="editRobot(row)">编辑</button>
+                    <button trip-button type="primary" (click)="deleteRobot(row)">删除</button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+</div>
+

@@ -1,0 +1,58 @@
+@import "../rui/css/app-common";
+@import "./variables";
+
+html, body {
+  width: 100%;
+  height: 100%;
+  color: #5e6166;
+  font-size: 14px;
+}
+
+.nav {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+@import "./styles/tab";
+@import "./styles/plate";
+@import "./styles/breadcrumb";
+@import "./styles/profile";
+
+.main {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.main-sidebar {
+  display: flex;
+  flex-shrink: 0;
+}
+.main-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.framework-sidebar {
+  display: flex;
+  height: 100%;
+}
+.framework-header {
+  margin-bottom: 0;
+  border-bottom: $border-line;
+}
+.framework-body {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+}
+
+
+.content-container {
+  padding: 10px 5px;
+}

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title float-left">禁言信息</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<div class="modal-body p-0 gag-content">
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="20%">禁言时间</th>
+                <th>原因</th>
+                <th width="20%">创建时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let gag of gags">
+                <td>
+                    <span *ngIf="gag.expireDate">{{formatDate(gag.expireDate)}}</span>
+                    <span *ngIf="!gag.expireDate">永久</span>
+                </td>
+                <td>
+                    <div class="text-truncate gag-text" title="{{gag.reason}}">{{gag.reason}}</div>
+                </td>
+                <td>{{formatDate(gag.createDate)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

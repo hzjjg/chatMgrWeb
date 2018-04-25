@@ -1,0 +1,33 @@
+<p class="text-muted">
+    操作日志记录了您在进行的操作。防止异常操作的出现，便于您的核查。
+</p>
+<mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="ip">
+        <mat-header-cell *matHeaderCellDef> 登录IP </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.remoteIP}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef> 操作人 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="op">
+        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef> 时间 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.time  | date:'yyyy-MM-dd HH:mm:ss'}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [length]="dataSource.total"
+               [pageIndex]="pageIndex"
+               [pageSize]="pageSize"
+               (page)="onPageChange($event)">
+</mat-paginator>

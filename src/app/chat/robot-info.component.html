@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title float-left">机器人信息</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<form (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+        <div class="avatar">
+            <a href="javascript:;" (click)="settingAvatar()">
+                <img src="{{robot.avatar}}" alt="">
+            </a>
+        </div>
+        
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="用户名" [(ngModel)]="robot.username">
+        </div>
+        <div class="form-group">
+            <label for="nickname">昵称</label>
+            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="昵称" [(ngModel)]="robot.nickname">
+        </div>
+        <div class="form-group">
+            <label for="userType">用户类型</label>
+            <select class="form-control" id="userType" name="userType"  [(ngModel)]="robot.userType">
+                <option *ngFor="let userType of userTypes" [value]="userType.type">{{userType.name}}</option>
+            </select>
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label for="personalSignature">个性签名</label>-->
+            <!--<textarea class="form-control" name="personalSignature" [(ngModel)]="robot.personalSignature" id="personalSignature" cols="30" rows="3"></textarea>-->
+        <!--</div>-->
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

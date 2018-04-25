@@ -1,0 +1,140 @@
+<!--<p class="text-muted">-->
+<!---->
+<!--</p>-->
+<!--<div class="container-fluid">-->
+<!--</div>-->
+
+<div class="layout">
+    <div class="layout-main">
+        <div class="clearfix">
+            <div class="pull-left pt-2">
+                <div class="float-left pl-4">
+                    <span class="text-secondary">转出金额：</span>
+                    <span>{{dataSource.data.outMoney || 0}}</span>
+                </div>
+                <div class="float-left pl-4">
+                    <span class="text-secondary">转入金额：</span>
+                    <span>{{dataSource.data.toMoney || 0}}</span>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div class="search">
+                    <div class="search-input-wrapper">
+                        <input type="text" placeholder="输入账号搜索" [(ngModel)]="likeRelationUsername" (keydown)="search($event)">
+                        <a href="javascript:;" class="search-icon" (click)="searchInput()">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right pr-2" style="padding-top: 1px">
+                <div class="float-left pr-2">
+                    <input class="form-control" matInput [matDatepicker]="startDateEle" [(ngModel)]="startDate" name="startDate" placeholder="起始日期" (keydown)="deleteStartDate($event)" (ngModelChange)="watchDate()" (click)="startDateEle.open()">
+                    <mat-datepicker #startDateEle></mat-datepicker>
+                </div>
+                <div class="float-left">
+                    <input class="form-control" matInput [min]="startDate" [matDatepicker]="endDateEle" [(ngModel)]="endDate" name="endDate" (keydown)="deleteEndDate($event)" placeholder="结束日期" (ngModelChange)="watchDate()" (click)="endDateEle.open()">
+                    <mat-datepicker #endDateEle></mat-datepicker>
+                </div>
+            </div>
+        </div>
+        <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="transactionNo">
+                <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.transactionNo}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="relationUsername">
+                <mat-header-cell *matHeaderCellDef> 账号 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> 
+                    <span class="pr-1">{{row.relationUsername}}</span>
+                    <img *ngIf="row.userType == 'Staff'" src="./images/cst-icon.png" alt="客服" title="客服" style="width: 26px;">
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef> 类型 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{formatType(row.type)}}
+                    <a href="javascript:;" class="pl-2 text-secondary" *ngIf="row.type == transactionType.RedPacket && row.packetId" (click)="lookRedPacket(row)">
+                        <i class="fa fa-money"></i>
+                    </a>
+                    <a href="javascript:;" class="pl-2 text-secondary" *ngIf="row.staffId && row.type != transactionType.RedPacket" (click)="lookStaffInfo(row)">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="transferType">
+                <mat-header-cell *matHeaderCellDef> 转账类型 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{formatTransferType(row.transferType)}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="money">
+                <mat-header-cell *matHeaderCellDef> 金额 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.money}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="account">
+                <mat-header-cell *matHeaderCellDef> 平台账号 </mat-header-cell>
+            <mat-cell *matCellDef="let row" [title]="row.account"> {{row.account}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="statement">
+                <mat-header-cell *matHeaderCellDef> 说明 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.statement}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="time">
+                <mat-header-cell *matHeaderCellDef> 时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.time| date: 'yyyy-MM-dd HH:mm'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button trip-button type="primary" (click)="edit(row)">编辑</button>
+                    <button trip-button type="primary" (click)="remove(row)">删除</button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [length]="dataSource.total"
+                       [pageIndex]="pageIndex"
+                       [pageSize]="pageSize"
+                       (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+    <div class="layout-sidebar pt-0">
+        <div class="select-sidebar mb-3">
+            <h4 class="sidebar-title">按账号类型筛选</h4>
+            <ul class="nav sidebar-nav">
+                <li [class.selected]="usernameSelected == null">
+                    <a href="javascript:;" (click)="selectUserType(null)" class="select-item text-truncate">
+                        全部
+                    </a>
+                </li>
+                <li *ngFor="let item of filterUserTypes" [class.selected]="usernameSelected == item.type" (click)="selectUserType(item.type)">
+                    <a href="javascript:;" class="select-item text-truncate">
+                        {{item.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="select-sidebar">
+            <h4 class="sidebar-title">按类型筛选</h4>
+            <ul class="nav sidebar-nav">
+                <li [class.selected]="selected == null">
+                    <a href="javascript:;" (click)="selectStatus(null)" class="select-item text-truncate">
+                        全部
+                    </a>
+                </li>
+                <li *ngFor="let item of filterTypes" [class.selected]="selected == item.type" (click)="selectStatus(item.type)">
+                    <a href="javascript:;" class="select-item text-truncate">
+                        {{item.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

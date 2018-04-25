@@ -1,0 +1,57 @@
+
+<div class="layout">
+    <div class="layout-main">
+        <div class="room-notice-container" *ngIf="showQrCode || showQQInfo">
+            <div class="qr-code-wrap" *ngIf="!showQQInfo">
+                <div class="qr-code-title">QQ扫码登录</div>
+                <div class="qr-code">
+                    <div class="text-center icon-loading text-secondary" *ngIf="loading">
+                        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <ng-container *ngIf="qrCode && !loading">
+                        <!--<qr-code [value]="qrCode.path" [size]="140" [canvas]="true" [level]="'H'"></qr-code>-->
+                        <img [src]="qrCode.path" alt="" >
+                    </ng-container>
+                </div>
+                <div class="mask" (click)="refresh()" *ngIf="!qrCode && !loading">
+                    <span class="pb-2">点击请求</span>
+                    <span>二维码</span>
+                </div>
+            </div>
+
+            <div *ngIf="showQQInfo && qqInfo">
+                <div class="qq-info">
+                    <div class="info-title clearfix">
+                        <b>信息</b>
+                        <a href="javascript:;" class="float-right" (click)="signOut()">
+                            <i class="fa fa-power-off"></i>
+                        </a>
+                    </div>
+                    <form action="" class="info-wrap">
+                        <div class="form-group">
+                            <label>账号</label>
+                            <div class="info-item">
+                                <span>{{qqInfo.account}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>昵称</label>
+                            <!--<input type="text" class="form-control" [(ngModel)]="qqInfo.nick" name="nick">-->
+                            <div class="info-item">
+                                <span>{{qqInfo.nick}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-center"><span>请前往<a href="http://w.qq.com/" target="_blank">http://w.qq.com</a>再次登录</span></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="layout-sidebar">
+        <button trip-button type="primary" custom-class="btn-block mb-2" (click)="refreshQQ()">刷新</button>
+    </div>
+</div>
+
+
+

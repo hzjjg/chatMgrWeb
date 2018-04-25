@@ -1,0 +1,300 @@
+<!--<form novalidate #form="ngForm">-->
+<div>
+    <h4 class="mb-3 mt-4">基本信息</h4>
+    <fieldset class="container">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label class="col-form-label">房间号</label>
+                <input type="text" readonly class="form-control" name="roomNo" [value]="room.roomNo">
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-form-label">房间名称</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="room.name">
+            </div>
+        </div>
+
+        <div class="from-group">
+            <label>logo <span class="text-secondary">（大小：宽度255px * 高度60px。内容要求：内容上下留点边距）</span></label>
+            <div class="pb-3" *ngIf="!room.logo">
+                <div class="notice-map">
+                    <button type="button" class="btn btn-primary" [disabled]="uploading">
+                        <i class="fa fa-spinner fa-pulse" *ngIf="uploading"></i>
+                        <span>上传</span>
+                    </button>
+                    <input #fileUpload type="file" [options]="options" ngFileSelect (uploadOutput)="onUploadOutputLogo($event)" [uploadInput]="uploadInput"
+                           multiple [hidden]="uploading">
+                </div>
+            </div>
+            <div class="clearfix pb-2" *ngIf="room.logo">
+                <div class="float-left" style="height: 60px">
+                    <img src="{{room.logo}}" alt="" style="border: 1px solid #e5e5e5; height: 100%">
+                </div>
+                <div class="float-left p-3">
+                    <button type="button" class="btn btn-light float-right" (click)="deleteLogo()">删除</button>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col-md-6">
+                    <label>logo链接</label>
+                    <input type="text" class="form-control" name="bannerHref" [(ngModel)]="room.logoHref" placeholder="http://www.baidu.com">
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+
+    <h4 class="mb-3 mt-4">SEO</h4>
+    <fieldset class="container">
+        <div class="form-group">
+            <label class="col-form-label">关键字</label>
+            <input type="text" class="form-control" name="keywords" [(ngModel)]="room.keywords">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">描述</label>
+            <textarea rows="2" class="form-control" name="description" [(ngModel)]="room.description"></textarea>
+        </div>
+    </fieldset>
+
+    <h4 class="mb-3 mt-4">植入脚本</h4>
+    <fieldset class="container">
+        <div class="form-group">
+            <label class="col-form-label">脚本</label>
+            <textarea rows="3" class="form-control" name="include" [(ngModel)]="room.include"></textarea>
+        </div>
+    </fieldset>
+
+    <h4 class="mb-3 mt-4">公告</h4>
+    <div class="container">
+        <div class="form-group">
+            <label>公告图  <span class="text-secondary">（大小：宽度1920px * 高度60px。内容要求：内容显示在中间1200px里，1200px中左边留255px放logo）</span></label>
+            <div class="pb-3" *ngIf="!room.banner">
+                <div class="notice-map">
+                    <button type="button" class="btn btn-primary" [disabled]="uploading">
+                        <i class="fa fa-spinner fa-pulse" *ngIf="uploading"></i>
+                        <span>上传</span>
+                    </button>
+                    <input #fileUpload type="file" [options]="options" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"
+                        multiple [hidden]="uploading">
+                </div>
+            </div>
+            <div class="row no-gutters" *ngIf="room.banner">
+                <div class="col-md-11 pb-2">
+                    <img src="{{room.banner}}" alt="" class="w-100">
+                    <!--<img src="/images/logo.gif" alt="" class="w-100">-->
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-light float-right" (click)="deleteHref()">删除</button>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col-md-6">
+                    <label>公告图链接</label>
+                    <input type="text" class="form-control" name="bannerHref" [(ngModel)]="room.bannerHref" placeholder="http://www.baidu.com">
+                </div>
+            </div>
+        </div>
+        <div class="my-3 dividing-line"></div>
+
+        <div class="form-row">
+            <div class="col-md-4" *ngFor="let item of notices; let i = index;">
+                <div class="p-3 extension-item">
+                    <a class="extension-item-delete" href="javascript:;" (click)="deleteNotice(i)">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <div class="form-group">
+                        <b>公告{{i + 1}}</b>
+                    </div>
+                    <div class="form-group">
+                        <label for="notice-order" class="col-form-label">轮动次序</label>
+                        <input id="notice-order" type="number" class="form-control" [name]="'order' + index" [(ngModel)]="item.order">
+                    </div>
+                    <div class="form-group">
+                        <label for="notice-releaseDate" class="col-form-label">发布时间</label>
+                        <input class="form-control" id="notice-releaseDate" placeholder="发布时间" matInput [matDatepicker]="releaseDateEle" [(ngModel)]="item.releaseDate"
+                            name="releaseDate{{index}}" (click)="releaseDateEle.open()">
+                        <mat-datepicker #releaseDateEle></mat-datepicker>
+                    </div>
+                    <div class="form-group">
+                        <label for="notice-text" class="col-form-label">内容</label>
+                        <textarea id="notice-text" class="form-control" rows="3" name="content{{index}}" [(ngModel)]="item.content"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <div class="p-3 notice-item-add">
+                    <button class="btn btn-primary" type="button" (click)="addNotice()">添加</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="status" [(ngModel)]="room.status">
+                <!--<option >Choose...</option>-->
+                <option value="Open">Open</option>
+                <!--<option value="2">Two</option>-->
+                <option value="Close">Close</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="room.status == 'Close'">
+            <label for="closing-notice">关闭房间公告</label>
+            <textarea name="closingNotice" class="form-control" id="closing-notice" rows="3" [(ngModel)]="room.closingNotice"></textarea>
+        </div>
+
+        <!--<div class="form-group">-->
+        <!--<label class="ol-form-label">公告</label>-->
+        <!--<textarea class="form-control" rows="3" name="notice" [(ngModel)]="room.notice"></textarea>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <!--<select class="custom-select mb-2 mr-sm-2 mb-sm-0" name="status" [(ngModel)]="room.status">-->
+        <!--&lt;!&ndash;<option >Choose...</option>&ndash;&gt;-->
+        <!--<option value="Open">Open</option>-->
+        <!--&lt;!&ndash;<option value="2">Two</option>&ndash;&gt;-->
+        <!--<option value="Close">Close</option>-->
+        <!--</select>-->
+        <!--</div>-->
+    </div>
+
+    <h4 class="mb-3 mt-4">扩展信息</h4>
+    <fieldset class="container">
+        <div class="form-row">
+            <div class="mb-3 col-md-4" *ngFor="let item of room.extensions; index as index;">
+                <div class="p-3 extension-item">
+                    <a class="extension-item-delete" href="javascript:;" (click)="deleteItem(index)">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <div class="form-group">
+                        <b>窗口{{index + 1}}</b>
+                    </div>
+                    <div class="form-group">
+                        <label for="extension-name{{index}}" class="col-form-label">名称</label>
+                        <input id="extension-name{{index}}" type="text" class="form-control" [name]="'name' + index" [(ngModel)]="item.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="extension-icon{{index}}" class="col-form-label">图标</label>
+                        <input id="extension-icon{{index}}" type="text" class="form-control" name="icon{{index}}" [(ngModel)]="item.icon">
+                    </div>
+                    <div class="form-group">
+                        <label for="extension-color{{index}}" class="col-form-label">图标颜色</label>
+                        <input id="extension-color{{index}}" type="text" class="form-control" name="color{{index}}" [(ngModel)]="item.color">
+                    </div>
+                    <div class="form-group">
+                        <label for="extension-description{{index}}" class="col-form-label">内容</label>
+                        <!-- <textarea id="extension-description{{index}}" class="form-control" rows="3" name="description{{index}}" [(ngModel)]="item.description"></textarea> -->
+                        <quill-editor [(ngModel)]="item.description" [style]="{height: '200px'}">
+                            <div quill-editor-toolbar>
+                                <span class="ql-formats">
+                                    <select class="ql-size">
+                                        <option value="small"></option>
+                                        <option selected></option>
+                                        <option value="large"></option>
+                                        <option value="huge"></option>
+                                    </select>
+                                    <!-- <select class="ql-header">
+                                        <option value="1"></option>
+                                        <option value="2"></option>
+                                        <option value="3"></option>
+                                        <option value="4"></option>
+                                        <option value="5"></option>
+                                        <option value="6"></option>
+                                    </select> -->
+                                    <!-- <button class="ql-color"></button> -->
+
+                                    <button class="ql-bold"></button>
+                                    <select class="ql-align">
+                                        <option selected></option>
+                                        <option value="center"></option>
+                                        <option value="right"></option>
+                                        <option value="justify"></option>
+                                    </select>
+                                    <select class="ql-color">
+                                    </select>
+                                    <button class="ql-image"></button>
+                                    <!-- <button class="ql-clean"></button> -->
+                                </span>
+                            </div>
+                        </quill-editor>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 col-md-4">
+                <div class="extension-item-add">
+                    <button class="btn btn-primary" type="button" (click)="addItem()">添加</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <h4 class="mb-3 mt-4">弹窗公告</h4>
+    <fieldset class="container">
+        <div class="form-group">
+        <label class="col-form-label">内容信息 </label>
+        <!--<textarea rows="3" class="form-control" name="guide" [(ngModel)]="room.guide"></textarea>-->
+        <quill-editor [(ngModel)]="room.guide" [style]="{height: '120px'}">
+            <div quill-editor-toolbar>
+                    <span class="ql-formats">
+                        <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                        </select>
+
+                        <button class="ql-bold"></button>
+                        <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                        </select>
+                        <select class="ql-color">
+                        </select>
+                        <button class="ql-image"></button>
+                    </span>
+            </div>
+        </quill-editor>
+    </div>
+    </fieldset>
+
+    <h4 class="mb-3 mt-4">游客提示</h4>
+    <fieldset class="container">
+        <div class="form-group form-row">
+            <div class="col-4">
+                <label for="visitor-warn-timeout" class="col-form-label">在线时间<span class="text-secondary"> (秒)</span></label>
+                <input id="visitor-warn-timeout" type="number" class="form-control" name="visitorWarnTimeout" [(ngModel)]="room.visitorWarnTimeout">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">内容信息 </label>
+            <quill-editor [(ngModel)]="room.visitorWarn" [style]="{height: '120px'}">
+                <div quill-editor-toolbar>
+                    <span class="ql-formats">
+                        <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                        </select>
+
+                        <button class="ql-bold"></button>
+                        <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                        </select>
+                        <select class="ql-color">
+                        </select>
+                        <button class="ql-image"></button>
+                    </span>
+                </div>
+            </quill-editor>
+        </div>
+    </fieldset>
+
+    <div class="container">
+        <footer class="text-right">
+            <button class="btn btn-primary" type="button" (click)="submit()">保存</button>
+        </footer>
+    </div>
+</div>
+<!--</form>-->

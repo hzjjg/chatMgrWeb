@@ -1,0 +1,35 @@
+<p class="text-muted">
+    文本规则，将对IM消息限制。
+</p>
+<div class="container-fluid">
+    <div class="row">
+        <button trip-button type="outline-primary" (click)="create()">新增</button>
+    </div>
+</div>
+<mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="target">
+        <mat-header-cell *matHeaderCellDef> 限制对象 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.target}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="remark">
+        <mat-header-cell *matHeaderCellDef> 描述 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.remark}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createTime">
+        <mat-header-cell *matHeaderCellDef> 创建时间 </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.createTime}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+        <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button trip-button type="primary" (click)="edit(row)">编辑</button>
+            <button trip-button type="primary" (click)="remove(row)">删除</button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

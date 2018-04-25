@@ -1,0 +1,136 @@
+
+<div class="layout">
+    <div class="layout-main">
+        <div class="clearfix">
+            <div class="pull-right">
+                <div class="search">
+                    <div class="search-input-wrapper">
+                        <input type="text" placeholder="输入昵称搜索" class="pr-4" [(ngModel)]="likeNickname" (keydown)="search($event)">
+                        <a href="javascript:;" class="search-icon" (click)="searchInput()">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right pr-2">
+                <div class="search">
+                    <div class="search-input-wrapper">
+                        <input type="text" placeholder="输入账号搜索" class="pr-4" [(ngModel)]="likeUsername" (keydown)="search($event)">
+                        <a href="javascript:;" class="search-icon" (click)="searchInput()">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right pr-2">
+                <button type="button" class="btn btn-outline-primary" (click)="openPopularize()">
+                    <span>推广</span>
+                </button>
+            </div>
+        </div>
+        <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef> 账号 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.username}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="nickname">
+                <mat-header-cell *matHeaderCellDef> IM昵称 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.nickname}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> 真实姓名 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="phone">
+                <mat-header-cell *matHeaderCellDef> 手机号 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.phone}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="balance">
+                <mat-header-cell *matHeaderCellDef> 余额</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.balance}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="registerHost">
+                <mat-header-cell *matHeaderCellDef> 注册域名 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <div class="pr-4">{{row.registerHost}}</div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="popularizeCode">
+                <mat-header-cell *matHeaderCellDef> 推广码 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{row.popularizeCode}}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="referrer">
+                <mat-header-cell *matHeaderCellDef class="mat-cell-width"> 来源 </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="mat-cell-width">
+                    <div class="text-truncate-2 pr-5" title="{{row.referrer}}"> {{row.referrer}} </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="lastOperationTime">
+                <mat-header-cell *matHeaderCellDef> 最后操作时间 </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.lastOperationTime | date: 'yyyy-MM-dd HH:mm'}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="createTime">
+                <mat-header-cell *matHeaderCellDef>
+                    <a href="javascript:;" class="text-secondary" (click)="sortCreateTime()" [ngClass]="{'cursor-wait': loading}">
+                        <span class="pr-2">创建时间</span>
+                        <i class="fa fa-arrow-up text-dark" *ngIf="sort == 'asc'"></i>
+                        <i class="fa fa-arrow-down text-dark" *ngIf="sort == 'desc'"></i>
+                    </a>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{row.createTime | date: 'yyyy-MM-dd HH:mm'}}
+                    <i class="fa fa-ban pl-1 text-secondary ban-icon" *ngIf="row.gags.length > 0" (click)="openGagAlert(row)"></i>
+                    <!--<i class="fa fa-ban pl-1 text-secondary" matTooltip="禁言中， 未完善" [matTooltipPosition]="'right'"></i>-->
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operation">
+                <mat-header-cell *matHeaderCellDef> 操作 </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <a href="javascript:;" (click)="edit(row)">查看</a>
+                    <a href="javascript:;" (click)="transfer(row)" *ngIf="row.status == userStatus.Enable">转账</a>
+                    <a href="javascript:;" [matMenuTriggerFor]="operation" *ngIf="row.status == userStatus.Enable">更多</a>
+                    <!--<button trip-button type="link" (click)="transferRecord(row)"> 流水记录</button>-->
+                    <!--<button trip-button type="link" (click)="resetPassword(row)">重置密码</button>-->
+
+
+                    <mat-menu #operation="matMenu">
+                        <button mat-menu-item (click)="disabledCst(row)">停用</button>
+                        <button mat-menu-item (click)="transferRecord(row)">流水记录</button>
+                        <button mat-menu-item (click)="resetPassword(row)">重置密码</button>
+                        <button mat-menu-item (click)="toggleGossip(row)">禁言</button>
+                    </mat-menu>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <!--<mat-menu #operation="matMenu">-->
+        <!--<button mat-menu-item (click)="transferRecord(row)">流水记录</button>-->
+        <!--<button mat-menu-item (click)="resetPassword(row)">重置密码</button>-->
+        <!--</mat-menu>-->
+
+
+        <mat-paginator [length]="dataSource.total"
+                       [pageIndex]="pageIndex"
+                       [pageSize]="pageSize"
+                       (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+    <div class="layout-sidebar pt-0">
+        <div class="select-sidebar">
+            <h4 class="sidebar-title">客户状态筛选</h4>
+            <ul class="nav sidebar-nav">
+                <li *ngFor="let item of filterStatus" [class.selected]="status == item.status" (click)="selectStatus(item.status)">
+                    <a href="javascript:;" class="select-item text-truncate">
+                        {{item.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

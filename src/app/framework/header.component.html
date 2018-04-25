@@ -1,0 +1,30 @@
+<div class="container-fluid clearfix">
+    <ul class="nav user-nav pull-right">
+        <!--<li class="user-nav-item">-->
+            <!--<a href="javascript:;">-->
+                <!--<i></i>-->
+                <!--<span>导航菜单1</span>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li class="user-nav-item">-->
+            <!--<a href="javascript:;">-->
+                <!--<i></i>-->
+                <!--<span>导航菜单2</span>-->
+            <!--</a>-->
+        <!--</li>-->
+        <li class="user-nav-item" *ngIf="user">
+            <a href="javascript:;" class="nav-item-tool">
+                <span>{{user.username}}</span>
+                <img class="user-avatar rounded-circle" src="/images/头像.svg" />
+                <div class="select-down">
+                    <div class="select-down-item">
+                        <a href="javascript:;" routerLink="user"><i class="fa fa-user pr-2"></i>个人中心</a>
+                    </div>
+                    <div class="select-down-item">
+                        <a href="javascript:;" (click)="signOut()"><i class="fa fa-power-off pr-2"></i>退出</a>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,8 @@
+
+<!--<div class=""  [ngClass]="'place-' + position">-->
+    <div class="toast" [ngClass]="'toast-' + type">
+        <!--<i class="toast-icon"></i>可做处理 显示字体图标 或 图片-->
+        <img class="toast-icon" [src]="makeLink()">
+        <p class="toast-msg"><ng-content></ng-content></p>
+    </div>
+<!--</div>-->

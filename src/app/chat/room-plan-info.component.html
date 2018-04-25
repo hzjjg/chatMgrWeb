@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <h4 class="modal-title float-left">房间计划信息</h4>
+    <button type="button" class="close float-right" (click)="modalRef.close()">
+        <span>&times;</span>
+    </button>
+</div>
+
+<form (ngSubmit)="submit()">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name">名称</label>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="roomPlan.name">
+        </div>
+        <div class="form-group">
+            <label for="code">计划代码</label>
+            <input type="text" class="form-control" id="code" name="code" [(ngModel)]="roomPlan.code" *ngIf="!roomPlan.planId">
+            <input type="text" class="form-control" id="code" name="code" [(ngModel)]="roomPlan.code" *ngIf="roomPlan.planId" readonly>
+            <div class="text-secondary pt-1">根据<a href="https://www.cpapi.cc/home/center/plan.html" target="_blank">网页</a>填写计划代码</div>
+        </div>
+
+        <div class="form-group">
+            <mat-checkbox [(ngModel)]="roomPlan.push" id="push" name="push">同步到聊天窗口</mat-checkbox>
+        </div>
+
+        <div class="form-group">
+            <label >模板</label>
+            <quill-editor [(ngModel)]="roomPlan.template" [ngModelOptions]="{standalone: true}" [style]="{height: '200px'}">
+                <div quill-editor-toolbar>
+                    <span class="ql-formats">
+                        <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                        </select>
+                        <button class="ql-bold"></button>
+                        <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                        </select>
+                        <select class="ql-color">
+                        </select>
+                        <button class="ql-image"></button>
+                    </span>
+                </div>
+            </quill-editor>
+            <div class="text-secondary pt-1">"[plan]"将被替换为“计划”</div>
+        </div>
+        <div class="form-group">
+            <label for="script">预处理脚本</label>
+            <textarea class="form-control" id="script" name="script" [(ngModel)]="roomPlan.script" rows="8"></textarea>
+            <div class="text-secondary pt-1">此脚本预处理数据</div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" >
+            <!--<i class="fa fa-circle-o-notch fa-spin" [hidden]="!saveLoading"></i>-->
+            <span>Submit</span>
+        </button>
+    </div>
+</form>

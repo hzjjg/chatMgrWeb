@@ -1,0 +1,34 @@
+@import "../../variables";
+
+.table {
+  width: 100%;
+  margin-top: -1px;
+  border-bottom: 1px solid $gray-300;
+  text-align: center;
+  thead th, tbody td {
+    border-top: 1px solid $gray-300;
+    border-right: 1px solid $gray-300;
+    &:last-child {
+      border-right: 0;
+    }
+  }
+  thead {
+    background-color: $gray-100;
+    th {
+      padding: 5px 0;
+      text-align: center;
+      font-weight: normal;
+    }
+  }
+  tbody td {
+    line-height: 40px;
+    padding: 0 10px;
+  }
+}
+.gag-content {
+  min-height: 360px;
+  .gag-text {
+    width: 280px;
+    line-height: 1.5;
+  }
+}
